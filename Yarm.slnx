@@ -1,5 +1,5 @@
 <Solution>
   <Project Path="Yarm.Common\Yarm.Common.csproj" />
-  <Project Path="Yarm.WebApp/Yarm.WebApp.Client/Yarm.WebApp.Client.csproj" />
-  <Project Path="Yarm.WebApp/Yarm.WebApp/Yarm.WebApp.csproj" />
+  <Project Path="Yarm.RecipeSources/Yarm.RecipeSources.csproj" />
+  <Project Path="Yarm.Wasm/Yarm.Wasm.csproj" />
 </Solution>
