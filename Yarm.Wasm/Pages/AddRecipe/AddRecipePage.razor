@@ -3,7 +3,10 @@
 @inherits FluxorComponent
 @page "/add"
 
-<MarkdownEditor Value="@EditRecipeState.Value.Content" ValueChanged="OnMarkdownValueChanged">
-
-</MarkdownEditor>
+<MudPaper Elevation="5">
+    <MarkdownEditor Value="@EditRecipeState.Value.Content" 
+                    ValueChanged="OnMarkdownValueChanged"
+                    HideIcons="@HiddenMarkdownButtons">
+    </MarkdownEditor>
+</MudPaper>
 

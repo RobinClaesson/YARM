@@ -1,3 +1,9 @@
 .mud-main-content{
     padding-top: calc(var(--mud-appbar-height) + 1rem)
 }
+
+.editor-statusbar {
+    padding: 0px;
+    visibility: hidden;
+    margin-top: -20px;
+}
