@@ -1,18 +1,16 @@
 using Fluxor;
-using Microsoft.JSInterop;
-using Yarm.RecipeSources.Factory;
-using Yarm.Wasm.Extensions;
 using Yarm.Wasm.RecipeSources;
+using Yarm.Wasm.Services;
 
 namespace Yarm.Wasm.Store.Recipe;
 
-public class RecipeEffects(ILocalStorageService localStorageService, IRecipeSourceFactory recipeSourceFactory)
+public class RecipeEffects(IRecipeSourcesService recipeSourcesService)
 {
     [EffectMethod(typeof(StoreInitializedAction))]
     public Task OnStoreInitializedAction(IDispatcher dispatcher)
     {
         var sources = new List<RecipeSourceInfo> { RecipeSourceInfo.LocalStorage };
-        sources.AddRange(localStorageService.GetRecipeSourceInfos());
+        sources.AddRange(recipeSourcesService.GetRecipeSourceInfos());
         dispatcher.Dispatch(new RecipeSourcesLoadedAction(sources));
 
         return Task.CompletedTask;
@@ -21,14 +19,10 @@ public class RecipeEffects(ILocalStorageService localStorageService, IRecipeSour
     [EffectMethod]
     public async Task OnRecipeSourcesLoadedAction(RecipeSourcesLoadedAction action, IDispatcher dispatcher)
     {
-        var sources = action.RecipeSourceInfos
-            .Select(rsi => recipeSourceFactory.Create(rsi.RecipeSourceType, rsi.Config));
-
-        foreach (var source in sources)
+        foreach (var source in recipeSourcesService.GetAllRecipeSources())
         {
             var recipePreviews = await source.GetRecipePreviewsAsync();
             dispatcher.Dispatch(new RecipePreviewsLoadedAction(recipePreviews.ToList()));
         }
     }
-    
 }

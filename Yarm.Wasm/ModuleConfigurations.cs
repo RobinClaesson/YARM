@@ -5,6 +5,7 @@ using MudBlazor.Services;
 using Yarm.RecipeSources;
 using Yarm.RecipeSources.Factory;
 using Yarm.Wasm.RecipeSources;
+using Yarm.Wasm.Services;
 
 namespace Yarm.Wasm;
 
@@ -24,7 +25,7 @@ public static class ModuleConfigurations
                 rdt.Name = "Yarm";
                 rdt.EnableStackTrace();
             });
-        }); 
+        });
         builder.Services.AddLocalStorageServices();
         builder.Services.AddRecipeSources();
     }
@@ -32,7 +33,8 @@ public static class ModuleConfigurations
     private static void AddRecipeSources(this IServiceCollection services)
     {
         services.AddScoped<IRecipeSource, LocalStorageRecipeSource>();
-        
+
+        services.AddScoped<IRecipeSourcesService, RecipeSourceService>();
         services.AddScoped<IRecipeSourceFactory, DefaultRecipeSourceFactory>();
     }
 }
